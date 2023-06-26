@@ -1,0 +1,18 @@
+import requests
+from bs4 import BeautifulSoup
+
+def get_ebay_price(item_url):
+    response = requests.get(item_url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    price_element = soup.find("span", class_="notranslate")
+    
+    if price_element:
+        price = price_element.text.strip()
+        return price
+    else:
+        return "Price not found."
+
+if __name__ == "__main__":
+    item_url = "https://www.ebay.com/your-item-url"  # Replace with the actual eBay item URL
+    item_price = get_ebay_price(item_url)
+    print("Current price on eBay:", item_price)
